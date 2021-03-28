@@ -17,13 +17,15 @@ public class DemoAjaxApplication implements CommandLineRunner {
 
 	@Autowired
 	SocialMetaTagService service;
-	
+
 	@Override
 	public void run(String... args) throws Exception {
-		
-		
-		SocialMetaTag og = service.getOpenGraphByUrl("https://www.udemy.com/course/writing-clean-code/");
+
+		SocialMetaTag og = service.getSocialMetaTagByUrl("https://www.udemy.com/course/writing-clean-code/");
 		System.out.println(og.toString());
+		
+		SocialMetaTag og1 = service.getSocialMetaTagByUrl("https://www.pichau.com.br/cadeiras/gamer/cadeira-gamer-razer-tarok-pro-rez-0002");
+		System.out.println(og1.toString());
 	}
 
 }
