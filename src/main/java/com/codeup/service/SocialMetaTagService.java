@@ -16,20 +16,20 @@ public class SocialMetaTagService {
 	private static Logger log = LoggerFactory.getLogger(SocialMetaTagService.class);
 
 	public SocialMetaTag getSocialMetaTagByUrl(String url) {
-		SocialMetaTag twitter = this.getTwitterByUrl(url);
-		if (!this.isEmpty(twitter)) {
+		SocialMetaTag twitter = getTwitterCardByUrl(url);
+		if (!isEmpty(twitter)) {
 			return twitter;
 		}
-
-		SocialMetaTag openGraph = this.getOpenGraphByUrl(url);
-		if (!this.isEmpty(openGraph)) {
+		
+		SocialMetaTag openGraph = getOpenGraphByUrl(url);
+		if (!isEmpty(openGraph)) {
 			return openGraph;
 		}
-
+		
 		return null;
 	}
 
-	private SocialMetaTag getTwitterByUrl(String url) {
+	private SocialMetaTag getTwitterCardByUrl(String url) {
 		SocialMetaTag tag = new SocialMetaTag();
 		try {
 			Document doc = Jsoup.connect(url).get();
@@ -60,12 +60,10 @@ public class SocialMetaTagService {
 	}
 
 	private boolean isEmpty(SocialMetaTag tag) {
-		if (tag.getImage().isEmpty())
-			return true;
-		if (tag.getTitle().isEmpty())
-			return true;
-		if (tag.getUrl().isEmpty())
-			return true;
+		if (tag.getImage().isEmpty()) return true;
+		if (tag.getSite().isEmpty()) return true;
+		if (tag.getTitle().isEmpty()) return true;
+		if (tag.getUrl().isEmpty()) return true;		
 		return false;
 	}
 
