@@ -1,4 +1,4 @@
-package com.codeup;
+package com.codeup.domain;
 
 import java.io.Serializable;
 
@@ -41,6 +41,11 @@ public class SocialMetaTag implements Serializable {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	@Override
+	public String toString() {
+		return "SocialMetaTag [site=" + site + ", title=" + title + ", url=" + url + ", image=" + image + "]";
 	}
 
 }
