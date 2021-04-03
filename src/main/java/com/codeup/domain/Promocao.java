@@ -37,11 +37,11 @@ public class Promocao implements Serializable {
 	@Column(name = "descricao")
 	private String descricao;
 
-	@Column(name = "link_image", nullable = false)
-	private String linkImage;
+	@Column(name = "link_imagem", nullable = false)
+	private String linkImagem;
 
 	@NumberFormat(style = Style.CURRENCY, pattern = "#,##0.00")
-	@Column(name = "preco", nullable = false)
+	@Column(name = "preco_promocao", nullable = false)
 	private BigDecimal preco;
 
 	@Column(name = "total_likes")
@@ -94,12 +94,12 @@ public class Promocao implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public String getLinkImage() {
-		return linkImage;
+	public String getLinkImagem() {
+		return linkImagem;
 	}
 
-	public void setLinkImage(String linkImage) {
-		this.linkImage = linkImage;
+	public void setLinkImagem(String linkImagem) {
+		this.linkImagem = linkImagem;
 	}
 
 	public BigDecimal getPreco() {
@@ -137,7 +137,7 @@ public class Promocao implements Serializable {
 	@Override
 	public String toString() {
 		return "Promocao [id=" + id + ", titulo=" + titulo + ", linkPromocao=" + linkPromocao + ", site=" + site
-				+ ", descricao=" + descricao + ", linkImage=" + linkImage + ", preco=" + preco + ", likes=" + likes
+				+ ", descricao=" + descricao + ", linkImagem=" + linkImagem + ", preco=" + preco + ", likes=" + likes
 				+ ", dtCadastro=" + dtCadastro + ", categoria=" + categoria + "]";
 	}
 
