@@ -27,7 +27,7 @@ public class Promocao implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotBlank(message = "Um títule é requerido")
+	@NotBlank(message = "Um título é requerido")
 	@Column(name = "titulo", nullable = false)
 	private String titulo;
 

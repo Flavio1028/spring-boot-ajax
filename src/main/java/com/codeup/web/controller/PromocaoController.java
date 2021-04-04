@@ -40,11 +40,12 @@ public class PromocaoController {
 	public ResponseEntity<?> salvarPromocao(@Valid Promocao promocao, BindingResult result) {
 
 		if (result.hasErrors()) {
-			Map<String, String> erros = new HashMap<>();
+			Map<String, String> errors = new HashMap<>();
 			for (FieldError error : result.getFieldErrors()) {
-				erros.put(error.getField(), error.getDefaultMessage());
+				errors.put(error.getField(), error.getDefaultMessage());
 			}
-			return ResponseEntity.unprocessableEntity().body(erros);
+
+			return ResponseEntity.unprocessableEntity().body(errors);
 		}
 
 		log.info("Promocao {}", promocao.toString());
