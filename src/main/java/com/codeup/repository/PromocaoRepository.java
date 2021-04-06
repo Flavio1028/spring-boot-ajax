@@ -1,5 +1,9 @@
 package com.codeup.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +15,12 @@ import com.codeup.domain.Promocao;
 
 @Repository
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
+
+	@Query("SELECT p FROM Promocao p WHERE p.site LIKE :site")
+	public Page<Promocao> findBySite(@Param("site") String site, Pageable page);
+
+	@Query("SELECT DISTINCT p.site FROM Promocao p WHERE p.site LIKE %:site%")
+	public List<String> findSitesByTermo(@Param("site") String site);
 
 	@Transactional(readOnly = false)
 	@Modifying
