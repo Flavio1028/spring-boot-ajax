@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -28,6 +29,7 @@ import com.codeup.domain.Categoria;
 import com.codeup.domain.Promocao;
 import com.codeup.repository.CategoriaRepository;
 import com.codeup.repository.PromocaoRepository;
+import com.codeup.service.PromocaoDataTablesService;
 
 @Controller
 @RequestMapping("/promocao")
@@ -40,6 +42,17 @@ public class PromocaoController {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@GetMapping("/tabela")
+	public String showTabela() {
+		return "promo-datatables";
+	}
+
+	@GetMapping("/datatables/server")
+	public ResponseEntity<?> datatables(HttpServletRequest request) {
+		Map<String, Object> data = new PromocaoDataTablesService().execute(promocaoRepository, request);
+		return ResponseEntity.ok(data);
+	}
 
 	@GetMapping("/site/list")
 	public String listarPorSite(@RequestParam("site") String site, ModelMap model) {
