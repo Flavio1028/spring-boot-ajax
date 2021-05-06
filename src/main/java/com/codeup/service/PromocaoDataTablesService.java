@@ -1,5 +1,6 @@
 package com.codeup.service;
 
+import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -29,11 +30,11 @@ public class PromocaoDataTablesService {
 
 		String column = columnName(request);
 		Sort.Direction direction = orderBy(request);
-		// String search = searchBy(request);
+		String search = searchBy(request);
 
 		Pageable pageable = PageRequest.of(current, lenght, direction, column);
 
-		Page<Promocao> page = queryBy(repository, pageable);
+		Page<Promocao> page = queryBy(search, repository, pageable);
 
 		Map<String, Object> json = new LinkedHashMap<>();
 		json.put("draw", draw);
@@ -44,8 +45,19 @@ public class PromocaoDataTablesService {
 		return json;
 	}
 
-	private Page<Promocao> queryBy(PromocaoRepository repository, Pageable pageable) {
-		return repository.findAll(pageable);
+	private Page<Promocao> queryBy(String search, PromocaoRepository repository, Pageable pageable) {
+
+		if (search.isEmpty()) {
+			return repository.findAll(pageable);
+		}
+
+		if (search.matches("^[0-9]+([.,][0-9]{2})?$")) {
+			search = search.replace(",", ".");
+
+			return repository.findByPreco(new BigDecimal(search), pageable);
+		}
+
+		return repository.findByTituloOrSiteOrCategoria(search, pageable);
 	}
 
 	private String searchBy(HttpServletRequest request) {
