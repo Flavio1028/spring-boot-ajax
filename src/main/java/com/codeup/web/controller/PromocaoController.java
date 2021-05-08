@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codeup.domain.Categoria;
 import com.codeup.domain.Promocao;
+import com.codeup.dto.PromocaoDTO;
 import com.codeup.repository.CategoriaRepository;
 import com.codeup.repository.PromocaoRepository;
 import com.codeup.service.PromocaoDataTablesService;
@@ -42,6 +43,42 @@ public class PromocaoController {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@GetMapping("/edit/{id}")
+	public ResponseEntity<?> preEditarPromocao(@PathVariable("id") Long id) {
+		Promocao promo = this.promocaoRepository.findById(id).get();
+		return ResponseEntity.ok(promo);
+	}
+
+	@PostMapping("/edit")
+	public ResponseEntity<?> editarPromocao(@Valid PromocaoDTO dto, BindingResult result) {
+
+		if (result.hasErrors()) {
+			Map<String, String> errors = new HashMap<>();
+			for (FieldError error : result.getFieldErrors()) {
+				errors.put(error.getField(), error.getDefaultMessage());
+			}
+
+			return ResponseEntity.unprocessableEntity().body(errors);
+		}
+
+		Promocao promo = promocaoRepository.findById(dto.getId()).get();
+		promo.setCategoria(dto.getCategoria());
+		promo.setDescricao(dto.getDescricao());
+		promo.setLinkImagem(dto.getLinkImagem());
+		promo.setPreco(dto.getPreco());
+		promo.setTitulo(dto.getTitulo());
+
+		this.promocaoRepository.save(promo);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/delete/{id}")
+	public ResponseEntity<?> excluirPromocao(@PathVariable("id") Long id) {
+		this.promocaoRepository.deleteById(id);
+		return ResponseEntity.ok().build();
+	}
 
 	@GetMapping("/tabela")
 	public String showTabela() {
