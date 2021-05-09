@@ -1,7 +1,9 @@
 package com.codeup.repository;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,7 +18,13 @@ import com.codeup.domain.Promocao;
 
 @Repository
 public interface PromocaoRepository extends JpaRepository<Promocao, Long> {
-
+	
+	@Query("SELECT count(p.id) as count, max(p.dtCadastro) as lastDate FROM Promocao p WHERE p.dtCadastro > :data")
+	public Map<String, Object> totalAndUltimaPromocaoByDataCadastro(@Param("data") LocalDateTime data);
+	
+	@Query("SELECT p.dtCadastro FROM Promocao p")
+	public Page<LocalDateTime> findUltimaDataPromocao(Pageable pageable);
+	
 	@Query("SELECT p FROM Promocao p WHERE p.preco = :preco ")
 	public Page<Promocao> findByPreco(@Param("preco") BigDecimal preco, Pageable page);
 
